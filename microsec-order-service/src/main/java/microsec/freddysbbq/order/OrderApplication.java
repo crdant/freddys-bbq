@@ -48,9 +48,7 @@ public class OrderApplication {
 
             @Override
             public void configure(HttpSecurity http) throws Exception {
-                if (securityProperties.isRequireSsl()) {
-                    http.requiresChannel().anyRequest().requiresSecure();
-                }
+                http.requiresChannel().anyRequest().requiresSecure();
                 http.authorizeRequests()
                         .antMatchers("/orders/**").access("#oauth2.hasScope('order.admin')");
             }

@@ -54,6 +54,7 @@ public class AdminApplication extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
+        http.requiresChannel().anyRequest().requiresSecure();
         http.authorizeRequests()
                 .expressionHandler(new OAuth2WebSecurityExpressionHandler())
                 .anyRequest().access("#oauth2.hasScope('menu.write')");

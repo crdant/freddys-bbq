@@ -43,7 +43,7 @@ public class MenuApplication {
     @PostConstruct
     public void bootstrap() {
         if (menuRepository.count() == 0) {
-            menuRepository.save(menuBootstrap().getItems());
+            menuRepository.saveAll(menuBootstrap().getItems());
         }
     }
 
@@ -65,9 +65,7 @@ public class MenuApplication {
 
             @Override
             public void configure(HttpSecurity http) throws Exception {
-                if (securityProperties.isRequireSsl()) {
-                    http.requiresChannel().anyRequest().requiresSecure();
-                }
+                http.requiresChannel().anyRequest().requiresSecure();
                 http
                         .authorizeRequests()
                         .antMatchers(HttpMethod.GET, "/**").access("#oauth2.hasScope('menu.read')")

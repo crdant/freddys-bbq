@@ -5,7 +5,7 @@
 
   <groupId>com.willtran.springone2gx</groupId>
   <artifactId>microsec-uaa</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.1-DEMO</version>
 
   <dependencies>
     <dependency>

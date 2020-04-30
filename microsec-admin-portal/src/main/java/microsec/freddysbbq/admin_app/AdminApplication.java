@@ -14,8 +14,8 @@ import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.hateoas.PagedResources;
-import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.PagedModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -54,10 +54,6 @@ public class AdminApplication extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        if (securityProperties.isRequireSsl()) {
-            http.requiresChannel().anyRequest().requiresSecure();
-        }
-
         http.authorizeRequests()
                 .expressionHandler(new OAuth2WebSecurityExpressionHandler())
                 .anyRequest().access("#oauth2.hasScope('menu.write')");
@@ -90,11 +86,11 @@ public class AdminApplication extends WebSecurityConfigurerAdapter {
     @HystrixCommand
     @RequestMapping("/menuItems")
     public String menu(Model model) throws Exception {
-        PagedResources<MenuItem> menu = restTemplate
+        PagedModel<MenuItem> menu = restTemplate
                 .exchange(
                         "//menu-service/menuItems",
                         HttpMethod.GET, null,
-                        new ParameterizedTypeReference<PagedResources<MenuItem>>() {
+                        new ParameterizedTypeReference<PagedModel<MenuItem>>() {
                         })
                 .getBody();
         model.addAttribute("menu", menu.getContent());
@@ -118,11 +114,11 @@ public class AdminApplication extends WebSecurityConfigurerAdapter {
     @HystrixCommand
     @RequestMapping("/menuItems/{id}")
     public String viewMenuItem(Model model, @PathVariable String id) throws Exception {
-        Resource<MenuItem> item = restTemplate
+        EntityModel<MenuItem> item = restTemplate
                 .exchange(
                         "//menu-service/menuItems/{id}",
                         HttpMethod.GET, null,
-                        new ParameterizedTypeReference<Resource<MenuItem>>() {
+                        new ParameterizedTypeReference<EntityModel<MenuItem>>() {
                         }, id)
                 .getBody();
         model.addAttribute("menuItem", item.getContent());
@@ -146,11 +142,11 @@ public class AdminApplication extends WebSecurityConfigurerAdapter {
     @HystrixCommand
     @RequestMapping("/orders/")
     public String viewOrders(Model model) {
-        PagedResources<Order> orders = restTemplate
+        PagedModel<Order> orders = restTemplate
                 .exchange(
                         "//order-service/orders",
                         HttpMethod.GET, null,
-                        new ParameterizedTypeReference<PagedResources<Order>>() {
+                        new ParameterizedTypeReference<PagedModel<Order>>() {
                         })
                 .getBody();
         model.addAttribute("orders", orders.getContent());

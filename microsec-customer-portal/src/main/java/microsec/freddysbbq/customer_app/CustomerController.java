@@ -8,7 +8,7 @@ import java.util.LinkedHashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.hateoas.PagedResources;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.stereotype.Controller;
@@ -42,11 +42,11 @@ public class CustomerController {
     @RequestMapping("/menu")
     @HystrixCommand(fallbackMethod = "menuFallback")
     public String menu(Model model) throws Exception {
-        PagedResources<MenuItem> menu = oauth2RestTemplate
+        PagedModel<MenuItem> menu = oauth2RestTemplate
                 .exchange(
                         "//menu-service/menuItems",
                         HttpMethod.GET, null,
-                        new ParameterizedTypeReference<PagedResources<MenuItem>>() {
+                        new ParameterizedTypeReference<PagedModel<MenuItem>>() {
                         })
                 .getBody();
         model.addAttribute("menu", menu.getContent());

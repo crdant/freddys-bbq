@@ -3,12 +3,14 @@ buildpack: java_buildpack_offline
 services:
   - sso
   - service-registry
+env:
+  TRUST_CERTS: api.run.pivotal.io
 
 applications:
  
  - name: custom-registry
    path: microsec-custom-registry/target/microsec-custom-registry.jar
-     
+
  - name: customer-portal
    path: microsec-customer-portal/target/microsec-customer-portal.jar
    services:

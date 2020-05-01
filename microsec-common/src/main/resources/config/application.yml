@@ -13,7 +13,7 @@ branding:
   restaurantName: Freddy's BBQ Joint
   menuTitle: Freddy's Menu
   
-menuBootstrap:
+menu-bootstrap:
   items:
     - name: Full Rack of Ribs
       price: 20

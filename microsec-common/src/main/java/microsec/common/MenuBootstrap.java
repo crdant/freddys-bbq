@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import microsec.freddysbbq.menu.model.v1.MenuItem;
 
-@ConfigurationProperties("menuBootstrap")
+@ConfigurationProperties("menu-bootstrap")
 public class MenuBootstrap {
     private List<MenuItem> items;
 
